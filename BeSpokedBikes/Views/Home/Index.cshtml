@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Menu</h1>
+
+<div style="margin: 20px 0;">
+    <!-- Navigation Buttons -->
+    <button onclick="window.location.href='@Url.Action("Index", "Home")'" style="padding: 10px 20px;">Home</button>
+    <button onclick="window.location.href='@Url.Action("Index", "SalesPerson")'" style="padding: 10px 20px;">Sales Persons</button>
+</div>
