@@ -16,34 +16,45 @@ namespace BeSpokedBikes.Controllers
     public class SaleController : Controller
     {
         private readonly ISaleService _saleService;
+        private readonly IProductService _productService;
+        private readonly ISalesPersonService _salesPersonService;
+        private readonly ICustomerService _customerService;
 
-        public SaleController(ISaleService saleService)
+        public SaleController(ISaleService saleService, AppDbContext context, IProductService productService, ISalesPersonService salesPersonService,
+                ICustomerService customerService)
         {
             _saleService = saleService;
+            _productService = productService;
+            _salesPersonService = salesPersonService;
+            _customerService = customerService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(DateTime? startDate, DateTime? endDate)
         {
-            return View(await _saleService.GetAllAsync());
+            var result = await _saleService.GetSalesByDateRangeAsync(startDate, endDate);
+
+            var salesViewModel = new SalesViewModel
+            {
+                StartDate = startDate,
+                EndDate = endDate,
+                Sales = result
+            };
+
+            var products = await _productService.GetAllAsync();
+            var salesPersons = await _salesPersonService.GetAllSalesPersonsAsync();
+            var customers = await _customerService.GetAllAsync();
+
+            var saleCompositeViewModel = new SaleCompositeViewModel
+            {
+                Sale = new Sale(),
+                SalesViewModel = salesViewModel,
+                Products = products,
+                SalesPersons = salesPersons,
+                Customers = customers
+            };
+
+            return View(saleCompositeViewModel);
         }
-
-        //// GET: Sales/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var sale = await _context.Sales
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (sale == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(sale);
-        //}
 
         // GET: Sales/Create
         public IActionResult Create()
@@ -51,109 +62,18 @@ namespace BeSpokedBikes.Controllers
             return View();
         }
 
-        // POST: Sales/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,ProductId,SalesPersonId,CustomerId,SalesDate")] Sale sale)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(sale);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(sale);
-        //}
+        //POST: Sales/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,ProductId,SalesPersonId,CustomerId,SalesDate")] Sale sale)
+        {
+            if (ModelState.IsValid)
+            {
+               await _saleService.AddAsync(sale);
+                return RedirectToAction(nameof(Index));
+            }
 
-        // GET: Sales/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var sale = await _context.Sales.FindAsync(id);
-        //    if (sale == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(sale);
-        //}
-
-        // POST: Sales/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,ProductId,SalesPersonId,CustomerId,SalesDate")] Sale sale)
-        //{
-        //    if (id != sale.Id)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(sale);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!SaleExists(sale.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(sale);
-        //}
-
-        // GET: Sales/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var sale = await _context.Sales
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (sale == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(sale);
-        //}
-
-        //// POST: Sales/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var sale = await _context.Sales.FindAsync(id);
-        //    if (sale != null)
-        //    {
-        //        _context.Sales.Remove(sale);
-        //    }
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
-        //private bool SaleExists(int id)
-        //{
-        //    return _context.Sales.Any(e => e.Id == id);
-        //}
+            return View(sale);
+        }
     }
 }

@@ -1,10 +1,18 @@
-﻿@model IEnumerable<BeSpokedBikes.Models.Sale>
-
-@{
-    ViewData["Title"] = "Sales";
-}
+﻿@using BeSpokedBikes.ViewModels
+@model SalesViewModel
 
 <h1>Sales</h1>
+
+<form method="get">
+    <div>
+        <label for="StartDate">Start Date:</label>
+        <input type="date" id="StartDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        <label for="EndDate">End Date:</label>
+        <input type="date" id="EndDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        <button type="submit">Filter</button>
+    </div>
+    
+</form>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,35 +21,47 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.ProductId)
+                Product
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SalesPersonId)
+                SalesPerson
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerId)
+                Customer
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SalesDate)
+                SalesDate
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Commission
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Sales)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductId)
+                    @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SalesPersonId)
+                    @Html.DisplayFor(modelItem => item.SalesPerson)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CustomerId)
+                    @Html.DisplayFor(modelItem => item.Customer)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SalesDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Commission)
                 </td>
             </tr>
         }

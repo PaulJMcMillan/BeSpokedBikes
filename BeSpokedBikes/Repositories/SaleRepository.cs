@@ -1,5 +1,6 @@
 ﻿using BeSpokedBikes.Interfaces;
 using BeSpokedBikes.Models;
+using BeSpokedBikes.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeSpokedBikes.Repositories
@@ -13,9 +14,23 @@ namespace BeSpokedBikes.Repositories
             _appDbContext = appDbContext;
         }
 
-        public async Task<List<Sale>> GetAllAsync()
+        public async Task AddAsync(Sale sale)
         {
-            return await _appDbContext.Sales.ToListAsync();
+            await _appDbContext.Sales.AddAsync(sale);
+            await _appDbContext.SaveChangesAsync();
+
+        }
+
+        public async Task<List<SalesListViewModel>> GetSalesByDateRangeAsync(DateTime? startDate, DateTime? endDate)
+        {
+            startDate = startDate ?? new DateTime(2000, 1,1);
+            endDate = endDate ?? new DateTime(2100, 12, 31);
+            FormattableString execString = $"EXEC GetSales @StartDate = {startDate},@EndDate = {endDate}";
+            var sales = await _appDbContext.SalesList
+                .FromSqlInterpolated(execString)
+                .ToListAsync();
+
+            return sales;
         }
     }
 }
