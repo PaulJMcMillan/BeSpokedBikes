@@ -11,7 +11,7 @@ namespace BeSpokedBikes.Models
         public string Manufacturer { get; set; } = string.Empty;
         public string Style { get; set; } = string.Empty;
         public decimal PurchasePrice { get; set; }
-        public decimal SalePrice { get; set; }
+        public decimal SalesPrice { get; set; }
         public int QtyOnHand { get; set; }
         public decimal CommissionPercentage {  get; set; }
     }

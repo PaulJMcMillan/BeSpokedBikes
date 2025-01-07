@@ -19,6 +19,12 @@ namespace BeSpokedBikes
                 sqlServerOptions=>sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null)));
             builder.Services.AddScoped<ISalesPersonService, SalesPersonService>();
             builder.Services.AddScoped<ISalesPersonRepository, SalesPersonRepository>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+            builder.Services.AddScoped<ISaleService, SaleService>();
+            builder.Services.AddScoped<ISaleRepository, SaleRepository>();
 
             var app = builder.Build();
 

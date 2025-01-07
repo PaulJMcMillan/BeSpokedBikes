@@ -11,41 +11,38 @@ using BeSpokedBikes.Interfaces;
 
 namespace BeSpokedBikes.Controllers
 {
-    public class SalesPersonController : Controller
+    public class ProductController : Controller
     {
-        private readonly ISalesPersonService _salesPersonService;
+        private readonly IProductService _productService;
 
-        public SalesPersonController(ISalesPersonService salesPersonService)
+        public ProductController(IProductService productService)
         {
-            _salesPersonService = salesPersonService;
+            _productService = productService;
         }
 
-        // GET: SalesPersons
         public async Task<IActionResult> Index()
         {
-            var result = await _salesPersonService.GetAllSalesPersonsAsync();
+            var result = await _productService.GetAllAsync();
             return View(result);
         }
 
-        //GET: SalesPersons/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-                var salesPerson = await _salesPersonService.GetByIdAsync(id);
-                return View(salesPerson);
+            var result = await _productService.GetByIdAsync(id);
+            return View(result);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Address,Phone,StartDate,TerminationDate,Manager")] SalesPerson salesPerson)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Manufacturer,Style,PurchasePrice,SalesPrice,QtyOnHand,CommissionPercentage")] Product product)
         {
             if (!ModelState.IsValid)
             {
                 return StatusCode(500);
             }
 
-            await _salesPersonService.UpdateAsync(salesPerson);
+            await _productService.UpdateAsync(product);
             return RedirectToAction(nameof(Index));
         }
-
     }
 }
