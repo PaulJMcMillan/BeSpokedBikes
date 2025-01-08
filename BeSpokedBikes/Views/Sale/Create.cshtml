@@ -1,4 +1,4 @@
-﻿@model BeSpokedBikes.Models.Sale
+﻿@model BeSpokedBikes.ViewModels.SaleCompositeViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,24 +13,24 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="ProductId" class="control-label"></label>
-                <input asp-for="ProductId" class="form-control" />
-                <span asp-validation-for="ProductId" class="text-danger"></span>
+                <label asp-for="Sale.ProductId" class="control-label"></label>
+                <select asp-for="Sale.ProductId" asp-items="Model.Products" class="form-control"></select>
+                <span asp-validation-for="Sale.ProductId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SalesPersonId" class="control-label"></label>
-                <input asp-for="SalesPersonId" class="form-control" />
-                <span asp-validation-for="SalesPersonId" class="text-danger"></span>
+                <label asp-for="Sale.SalesPersonId" class="control-label"></label>
+                <select asp-for="Sale.SalesPersonId" asp-items="Model.SalesPersons" class="form-control"></select>
+                <span asp-validation-for="Sale.SalesPersonId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CustomerId" class="control-label"></label>
-                <input asp-for="CustomerId" class="form-control" />
-                <span asp-validation-for="CustomerId" class="text-danger"></span>
+                <label asp-for="Sale.CustomerId" class="control-label"></label>
+                <select asp-for="Sale.CustomerId" asp-items="Model.Customers" class="form-control"></select>
+                <span asp-validation-for="Sale.CustomerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SalesDate" class="control-label"></label>
-                <input asp-for="SalesDate" class="form-control" />
-                <span asp-validation-for="SalesDate" class="text-danger"></span>
+                <label asp-for="Sale.SalesDate" class="control-label"></label>
+                <input asp-for="Sale.SalesDate" class="form-control" />
+                <span asp-validation-for="Sale.SalesDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

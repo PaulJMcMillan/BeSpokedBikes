@@ -40,26 +40,43 @@ namespace BeSpokedBikes.Controllers
                 Sales = result
             };
 
+            return View(salesViewModel);
+        }
+
+        // GET: Sales/Create
+        public async Task<IActionResult> Create()
+        {
             var products = await _productService.GetAllAsync();
             var salesPersons = await _salesPersonService.GetAllSalesPersonsAsync();
             var customers = await _customerService.GetAllAsync();
 
+            var productSelectList = products.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.Name
+            }).ToList();
+
+            var salesPersonSelectList = salesPersons.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.LastName+", "+p.FirstName
+            }).ToList();
+
+            var customerSelectList = customers.Select(p => new SelectListItem
+            {
+                Value = p.Id.ToString(),
+                Text = p.LastName + ", " + p.FirstName
+            }).ToList();
+
             var saleCompositeViewModel = new SaleCompositeViewModel
             {
-                Sale = new Sale(),
-                SalesViewModel = salesViewModel,
-                Products = products,
-                SalesPersons = salesPersons,
-                Customers = customers
+                Products = productSelectList,
+                SalesPersons = salesPersonSelectList,
+                Customers = customerSelectList,
+                Sale = new Sale()
             };
 
             return View(saleCompositeViewModel);
-        }
-
-        // GET: Sales/Create
-        public IActionResult Create()
-        {
-            return View();
         }
 
         //POST: Sales/Create
@@ -67,13 +84,15 @@ namespace BeSpokedBikes.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,ProductId,SalesPersonId,CustomerId,SalesDate")] Sale sale)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-               await _saleService.AddAsync(sale);
-                return RedirectToAction(nameof(Index));
+                return StatusCode(500);
             }
 
-            return View(sale);
+            await _saleService.AddAsync(sale);
+            return RedirectToAction(nameof(Index));
+
+            //return View(sale);
         }
     }
 }

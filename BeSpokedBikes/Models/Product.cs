@@ -6,7 +6,6 @@ namespace BeSpokedBikes.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; } = string.Empty;
         public string Manufacturer { get; set; } = string.Empty;
         public string Style { get; set; } = string.Empty;

@@ -14,10 +14,12 @@ namespace BeSpokedBikes.Repositories
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<SalesListViewModel> SalesList { get; set; }
+        public DbSet<CommissionReportViewModel> CommissionReport { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<SalesListViewModel>().HasNoKey(); // Since this is not tracked as an entity
+            modelBuilder.Entity<CommissionReportViewModel>().HasNoKey(); 
         }
     }
 }

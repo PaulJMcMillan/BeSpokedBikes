@@ -1,0 +1,48 @@
+﻿@using BeSpokedBikes.ViewModels
+@model List<CommissionReportViewModel>
+
+<h1>Quarterly Sales Person Commission Report</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Sales Person
+            </th>
+            <th>
+                Quarter
+            </th>
+            <th>
+                Total Sales
+            </th>
+            <th>
+                Commission Rate
+            </th>
+            <th>
+                Total Commission
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesPersonName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quarter)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalSales)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CommissionRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCommission)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
