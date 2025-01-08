@@ -3,20 +3,18 @@
 
 <h1>Sales</h1>
 
-<form method="get">
+<form method="get" style="margin-bottom: 25px;">
     <div>
         <label for="StartDate">Start Date:</label>
-        <input type="date" id="StartDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        <input type="date" id="StartDate" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" style="margin-right: 25px;" />
         <label for="EndDate">End Date:</label>
-        <input type="date" id="EndDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
-        <button type="submit">Filter</button>
+        <input type="date" id="EndDate" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" style="margin-right: 15px;" />
+        <button type="submit" style="margin-right: 30px;">Filter</button>
+        <a asp-action="Create">Create New</a>
     </div>
     
 </form>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -24,13 +22,13 @@
                 Product
             </th>
             <th>
-                SalesPerson
+                Sales Person
             </th>
             <th>
                 Customer
             </th>
             <th>
-                SalesDate
+                Sales Date
             </th>
             <th>
                 Price
@@ -42,7 +40,7 @@
                 Discount %
             </th>
             <th>
-                DiscountPrice
+                Discount Price
             </th>
             <th></th>
         </tr>
@@ -61,7 +59,7 @@
                     @Html.DisplayFor(modelItem => item.Customer)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SalesDate)
+                    @item.SalesDate.ToShortDateString()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SalesPrice)

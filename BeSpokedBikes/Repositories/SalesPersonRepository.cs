@@ -15,7 +15,7 @@ namespace BeSpokedBikes.Repositories
 
         public async Task<List<SalesPerson>> GetAllSalesPersonsAsync()
         {
-            return await _appDbContext.SalesPersons.ToListAsync();
+            return await _appDbContext.SalesPersons.OrderBy(sp=>sp.LastName).ThenBy(sp=>sp.FirstName).ToListAsync();
         }
 
         public async Task<SalesPerson> GetById(int id)

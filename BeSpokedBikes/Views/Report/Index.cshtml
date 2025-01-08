@@ -1,9 +1,8 @@
-﻿<h4>Quarterly Sales Person Commission Report</h4>
+﻿<h4 style="margin-bottom: 25px">Quarterly Sales Person Commission Report</h4>
 
 <form asp-controller="Report" asp-action="ShowReport" method="get">
-    <div>Enter Year and Quarter</div>
     <label>Year:</label>
-    <input name="year" value="" />
+    <input name="year" value="" style="margin-right: 15px;width: 50px" />
     <label>Quarter:</label>
     <select id="quarter" name="quarter">
         <option value="Q1">Q1</option>
@@ -11,5 +10,5 @@
         <option value="Q3">Q3</option>
         <option value="Q4">Q4</option>
     </select>
-    <button type="submit" class="btn btn-primary">View Report</button>
+    <button type="submit" class="btn btn-primary" style="margin-left: 25px">View Report</button>
 </form>
