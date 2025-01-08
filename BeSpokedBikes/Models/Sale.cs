@@ -9,6 +9,6 @@ namespace BeSpokedBikes.Models
         public int ProductId { get; set; }
         public int SalesPersonId { get; set; }
         public int CustomerId { get; set; }
-        public DateTime SalesDate { get; set; }
+        public DateTime SalesDate { get; set; }= DateTime.Now;
     }
 }

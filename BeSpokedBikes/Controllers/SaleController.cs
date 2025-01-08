@@ -4,6 +4,7 @@ using BeSpokedBikes.Repositories;
 using BeSpokedBikes.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
 
 namespace BeSpokedBikes.Controllers
 {
@@ -62,17 +63,25 @@ namespace BeSpokedBikes.Controllers
                     Text = p.Name
                 }).ToList();
 
+                var selectListItem = new SelectListItem { Value = "", Text = "" };
+
+                productSelectList.Insert(0, selectListItem);
+
                 var salesPersonSelectList = salesPersons.Select(p => new SelectListItem
                 {
                     Value = p.Id.ToString(),
                     Text = p.LastName + ", " + p.FirstName
                 }).ToList();
 
+                salesPersonSelectList.Insert(0, selectListItem);
+
                 var customerSelectList = customers.Select(p => new SelectListItem
                 {
                     Value = p.Id.ToString(),
                     Text = p.LastName + ", " + p.FirstName
                 }).ToList();
+
+                customerSelectList.Insert(0, selectListItem);
 
                 var saleCompositeViewModel = new SaleCompositeViewModel
                 {
