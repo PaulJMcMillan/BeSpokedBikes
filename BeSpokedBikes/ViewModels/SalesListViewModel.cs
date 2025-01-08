@@ -8,5 +8,7 @@
         public DateTime SalesDate { get; set; }
         public decimal SalesPrice { get; set; }
         public decimal Commission { get; set; }
+        public decimal DiscountPercentage {  get; set; }
+        public decimal DiscountPrice => SalesPrice - (SalesPrice * DiscountPercentage / 100);
     }
 }

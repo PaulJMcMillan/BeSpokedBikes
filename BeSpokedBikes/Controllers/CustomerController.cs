@@ -1,28 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using BeSpokedBikes.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using BeSpokedBikes.Models;
-using BeSpokedBikes.Repositories;
-using BeSpokedBikes.Interfaces;
 
 namespace BeSpokedBikes.Controllers
 {
     public class CustomerController : Controller
     {
         private readonly ICustomerService _customerService;
+        private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, ILogger<CustomerController> logger)
         {
             _customerService = customerService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _customerService.GetAllAsync());
+            try
+            {
+                return View(await _customerService.GetAllAsync());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+                return StatusCode(500);
+            }
+            
         }
     }
 }
